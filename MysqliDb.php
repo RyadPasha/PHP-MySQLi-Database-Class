@@ -547,13 +547,14 @@ class MysqliDb
      * Prefix add raw SQL query.
      *
      * @author Emre Emir <https://github.com/bejutassle>
+     * @updated Mohamed Riyad <https://github.com/RyadPasha>
      * @param string $query      User-provided query to execute.
      * @return string Contains the returned rows from the query.
      */
     public function rawAddPrefix($query){
         $query = str_replace(PHP_EOL, null, $query);
         $query = preg_replace('/\s+/', ' ', $query);
-        preg_match_all("/(from|into|update|join) [\\'\\´]?([a-zA-Z0-9_-]+)[\\'\\´]?/i", $query, $matches);
+        preg_match_all("/(from|into|update|join) [\\'\\´\\`]?([a-zA-Z0-9_-]+)[\\'\\´\\`]?/i", $query, $matches); // Adding ` to match SQL's one
         list($from_table, $from, $table) = $matches;
 
         return str_replace($table[0], self::$prefix.$table[0], $query);
